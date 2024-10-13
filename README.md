@@ -44,7 +44,7 @@ EcoSort is a web application designed to help users classify waste into differen
 ### Frontend Features
 
 - **Image Upload**: Users can upload images of waste items, which are then sent to the backend for classification.
-- **Real-Time Classification**: Once the image is processed by the backend API, the app displays the predicted waste category along with a confidence score for each label.
+- **Real-Time Classification**: Once the image is processed by the backend API, the app displays the predicted waste category along with whether the material is recyclable or not.
 - **Responsive Design**: The app is fully responsive, ensuring that users have a seamless experience across different device sizes.
 
 ### Backend API
