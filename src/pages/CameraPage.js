@@ -6,11 +6,37 @@ const CameraPage = () => {
   const webcamRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null);
   const [isCaptured, setIsCaptured] = useState(false);
+  const [results, setResults] = useState(null); // State to hold the API response
 
-  const capture = React.useCallback(() => {
+  const capture = React.useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
     setIsCaptured(true);
+
+    // Convert the image to a Blob for the API call
+    const response = await fetch(imageSrc);
+    const blob = await response.blob();
+
+    // Create a FormData object to send the image
+    const formData = new FormData();
+    formData.append('file', blob, 'captured_image.jpg'); // Set the filename as needed
+
+    // Make the API call
+    try {
+      const apiResponse = await fetch('http://10.19.95.173:8000/predict/', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await apiResponse.json();
+      setResults(data); // Update state with the API response
+    } catch (error) {
+      console.error('Error calling the API:', error);
+    }
   }, [webcamRef]);
 
   return (
@@ -64,6 +90,14 @@ const CameraPage = () => {
               <FaRecycle className="text-xl" />
               <p>Remember to recycle what you capture 🌍</p>
             </div>
+          </div>
+        )}
+
+        {/* Results Section */}
+        {results && (
+          <div className="mt-8 text-black">
+            <h2 className="text-xl font-semibold">Result:</h2>
+            <p>{results[0].label}: {results[0].score.toFixed(4)}</p>
           </div>
         )}
       </div>
