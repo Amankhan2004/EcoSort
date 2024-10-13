@@ -4,7 +4,7 @@ import { FaArrowLeft } from 'react-icons/fa'; // Back icon
 
 function ResultPage() {
   const location = useLocation();
-  const { imageURL } = location.state || {};
+  const { imageURL, topResult } = location.state || {};
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-emerald-300 via-teal-400 to-slate-600 p-8">
@@ -24,20 +24,30 @@ function ResultPage() {
         <p className="text-white text-lg mb-6">No image available</p>
       )}
 
-      {/* Image URL */}
-      {imageURL && (
-        <p className="text-white text-center text-sm bg-emerald-700 bg-opacity-60 px-4 py-2 rounded-lg mb-6">
-          <strong>Image URL:</strong> {imageURL}
+      {/* Display Top Result */}
+      {topResult && (
+        <p className="text-white text-lg">
+          <strong>Item Material:</strong> {topResult.label}
+          <br></br>
+          <strong>Recyclable: </strong> {topResult.label !== "trash" ? "Yes" : "No"}
         </p>
+        
       )}
 
-      {/* Back Button */}
+      {/* Button Container */}
+      <div className="flex space-x-4 mt-6"> {/* Flex container for buttons */}
       <Link to="/">
-        <button className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-full font-medium shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
-          <FaArrowLeft className="text-lg" />
-          <span>Back to Home</span>
-        </button>
-      </Link>
+          <button className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-full font-medium shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
+            <span>Home Page</span>
+          </button>
+        </Link>
+        <Link to="/camera">
+          <button className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-full font-medium shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
+            <FaArrowLeft className="text-lg" />
+            <span>Capture Again</span>
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
