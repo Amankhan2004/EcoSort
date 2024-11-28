@@ -1,11 +1,11 @@
-import React, { useRef } from 'react'; // Removed useState
+import React, { useRef } from 'react';
 import Webcam from 'react-webcam';
-import { FaLeaf, FaCamera } from 'react-icons/fa'; // Eco-friendly icons
+import { FaCamera } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const CameraPage = () => {
   const webcamRef = useRef(null);
-  const navigate = useNavigate(); // Hook to navigate
+  const navigate = useNavigate();
 
   const capture = React.useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -16,11 +16,11 @@ const CameraPage = () => {
 
     // Create a FormData object to send the image
     const formData = new FormData();
-    formData.append('file', blob, 'captured_image.jpg'); // Set the filename as needed
+    formData.append('file', blob, 'captured_image.jpg');
 
     // Make the API call
     try {
-      const apiResponse = await fetch('http://10.19.95.173:8000/predict/', {
+      const apiResponse = await fetch('http://localhost:8000/predict/', {
         method: 'POST',
         body: formData,
       });
@@ -30,11 +30,10 @@ const CameraPage = () => {
       }
 
       const data = await apiResponse.json();
-      // Navigate to ResultPage with the image and result data
       navigate('/result', {
         state: {
           imageURL: imageSrc,
-          topResult: data[0] // Pass the top result
+          topResult: data[0],
         },
       });
     } catch (error) {
@@ -43,35 +42,42 @@ const CameraPage = () => {
   }, [webcamRef, navigate]);
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-emerald-300 via-teal-400 to-slate-600 p-8">
-      {/* Header Section */}
-      <div className="flex items-center space-x-3 mb-6 justify-center">
-        <FaLeaf className="text-3xl text-white drop-shadow-md" />
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-wide drop-shadow-md">
-          EcoSort
-        </h1>
-      </div>
+    <div>
+      {/* Header */}
+      <header className="flex items-center justify-center px-8 py-4 border-b shadow-sm">
+        <span className="text-green-600 font-bold text-2xl tracking-wide">EcoSort</span>
+      </header>
 
-      {/* Content Section */}
-      <div className="flex-1 flex flex-col items-center justify-center space-y-8">
-        {/* Webcam Section */}
-        <div className="relative">
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            className="w-80 h-60 sm:w-96 sm:h-72 md:w-[500px] md:h-[350px] border-2 border-white rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-          />
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-white px-8 py-16 space-y-10 md:space-y-0 md:space-x-20">
+        {/* Left Section: Webcam */}
+        <div className="flex flex-col items-center space-y-6 max-w-lg text-center md:text-left">
+          <h1 className="text-5xl font-extrabold text-gray-800">
+            Capture and Sort
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            Use the camera below to capture an image of your waste item and let EcoSort do the sorting for you!
+          </p>
+          <div className="relative">
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              className="w-80 h-60 sm:w-96 sm:h-72 md:w-[500px] md:h-[350px] border-2 border-gray-300 rounded-lg shadow-lg"
+            />
+          </div>
         </div>
 
-        {/* Capture Button */}
-        <button
-          onClick={capture}
-          className="flex items-center space-x-2 px-8 py-3 bg-emerald-600 text-white rounded-full font-semibold shadow-lg transition-transform duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
-        >
-          <FaCamera className="text-xl" />
-          <span>Capture Photo</span>
-        </button>
+        {/* Right Section: Capture Button */}
+        <div className="flex flex-col items-center space-y-8">
+          <button
+            onClick={capture}
+            className="flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-teal-500 to-green-500 text-white text-lg font-medium rounded-full shadow-md hover:shadow-lg transition-transform duration-300 transform hover:scale-105"
+          >
+            <FaCamera className="text-xl" />
+            <span>Capture Photo</span>
+          </button>
+        </div>
       </div>
     </div>
   );

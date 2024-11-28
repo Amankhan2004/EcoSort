@@ -1,35 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaLeaf } from 'react-icons/fa'; // Eco-friendly icon
 
 function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-300 via-teal-400 to-slate-600 p-8 space-y-10">
-      {/* Header with subtle icon */}
-      <div className="flex items-center space-x-3">
-        <FaLeaf className="text-4xl text-emerald-700" />
-        <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-wide">
-          Welcome to EcoSort
-        </h1>
+    <div>
+      {/* Header */}
+      <header className="flex items-center justify-center px-8 py-4 border-b shadow-sm">
+        <span className="text-green-600 font-bold text-2xl tracking-wide">EcoSort</span>
+      </header>
+
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-white px-8 py-16 space-y-10 md:space-y-0 md:space-x-20">
+        {/* Left Section: Text Content */}
+        <div className="flex flex-col items-start space-y-6 max-w-lg text-center md:text-left">
+          <h1 className="text-5xl font-extrabold text-gray-800">
+            EcoSort for smarter recycling
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            EcoSort’s AI-powered technology categorizes waste 300% more accurately than human beings, making recycling simple and efficient.
+          </p>
+          <Link to="/camera">
+            <button className="px-8 py-4 bg-gradient-to-r from-teal-500 to-green-500 text-white text-lg font-medium rounded-full shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+              Open Camera
+            </button>
+          </Link>
+        </div>
+
+        {/* Right Section: Recycling GIF */}
+        <div className="flex items-center justify-center max-w-md">
+          <img
+            src="https://i.pinimg.com/originals/92/4c/af/924cafad941065f4d5c03ca5423bfcd3.gif"
+            alt="Recycling Animation"
+            className="w-full max-w-sm rounded-lg shadow-lg"
+          />
+        </div>
       </div>
-
-      {/* Introductory Text */}
-      <p className="text-lg text-white text-center max-w-xl leading-relaxed">
-        Make sorting and recycling effortless. Use EcoSort to categorize your waste and reduce your environmental impact.
-      </p>
-
-      {/* Call to Action Button */}
-      <Link to="/camera">
-        <button className="flex items-center space-x-2 px-8 py-3 bg-emerald-600 text-white rounded-full font-medium text-lg shadow-md transition-transform duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
-          <FaLeaf className="text-lg" />
-          <span>Open Camera</span>
-        </button>
-      </Link>
-
-      {/* Footer with Motivational Message */}
-      <footer className="mt-auto text-center text-sm text-white opacity-80">
-        🌿 Small steps lead to big changes. Let's sort for a greener future.
-      </footer>
     </div>
   );
 }

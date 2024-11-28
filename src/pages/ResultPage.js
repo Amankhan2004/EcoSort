@@ -7,46 +7,53 @@ function ResultPage() {
   const { imageURL, topResult } = location.state || {};
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-emerald-300 via-teal-400 to-slate-600 p-8">
+    <div>
       {/* Header */}
-      <h2 className="text-3xl font-bold text-white mb-6 tracking-wide">Result</h2>
+      <header className="flex items-center justify-center px-8 py-4 border-b shadow-sm">
+        <span className="text-green-600 font-bold text-2xl tracking-wide">EcoSort</span>
+      </header>
 
-      {/* Image Display */}
-      {imageURL ? (
-        <div className="w-72 h-72 rounded-lg overflow-hidden shadow-lg mb-6">
-          <img
-            src={imageURL}
-            alt="Result"
-            className="w-full h-full object-cover"
-          />
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-white px-8 py-16 space-y-10 md:space-y-0 md:space-x-20">
+        {/* Image Result */}
+        <div className="flex flex-col items-center space-y-6 max-w-lg">
+          <h2 className="text-5xl font-extrabold text-gray-800 text-center">
+            Result
+          </h2>
+          {imageURL ? (
+            <div className="w-72 h-72 rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={imageURL}
+                alt="Result"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <p className="text-lg text-gray-600">No image available</p>
+          )}
+          {topResult && (
+            <p className="text-lg text-gray-600 text-center">
+              <strong>Item Material:</strong> {topResult.label}
+              <br />
+              <strong>Recyclable: </strong> {topResult.label !== 'trash' ? 'Yes' : 'No'}
+            </p>
+          )}
         </div>
-      ) : (
-        <p className="text-white text-lg mb-6">No image available</p>
-      )}
 
-      {/* Display Top Result */}
-      {topResult && (
-        <p className="text-white text-lg">
-          <strong>Item Material:</strong> {topResult.label}
-          <br></br>
-          <strong>Recyclable: </strong> {topResult.label !== "trash" ? "Yes" : "No"}
-        </p>
-        
-      )}
-
-      {/* Button Container */}
-      <div className="flex space-x-4 mt-6"> {/* Flex container for buttons */}
-      <Link to="/">
-          <button className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-full font-medium shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
-            <span>Home Page</span>
-          </button>
-        </Link>
-        <Link to="/camera">
-          <button className="flex items-center space-x-2 px-6 py-3 bg-emerald-600 text-white rounded-full font-medium shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">
-            <FaArrowLeft className="text-lg" />
-            <span>Capture Again</span>
-          </button>
-        </Link>
+        {/* Navigation Buttons */}
+        <div className="flex flex-col space-y-6">
+          <Link to="/">
+            <button className="px-8 py-4 bg-gradient-to-r from-teal-500 to-green-500 text-white text-lg font-medium rounded-full shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+              Home Page
+            </button>
+          </Link>
+          <Link to="/camera">
+            <button className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-teal-500 to-green-500 text-white text-lg font-medium rounded-full shadow-md hover:shadow-lg transition-transform transform hover:scale-105">
+              <FaArrowLeft className="text-lg" />
+              <span>Capture Again</span>
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
